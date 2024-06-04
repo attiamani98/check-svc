@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-pvcs
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-pvcs
+  template:
+    metadata:
+      labels:
+        app: test-pvcs
+    spec:
+      serviceAccountName: monitoring-sat
+      containers:
+      - name: test-pvcs
+        image: aattia98/test-pvcs:latest
+        imagePullPolicy: Always
+

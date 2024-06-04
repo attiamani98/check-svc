@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: service-checker
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      name: service-checker
+  template:
+    metadata:
+      labels:
+        name: service-checker
+    spec:
+      serviceAccountName: monitoring-sat
+      containers:
+      - name: service-checker
+        image: aattia98/service-checker:latest   
+      restartPolicy: Always
+
+

@@ -1,0 +1,5 @@
+FROM python:3.11-slim
+WORKDIR /app 
+COPY storage-checker.py /app
+RUN pip install kubernetes 
+ENTRYPOINT [ "python", "/app/storage-checker.py" ]
