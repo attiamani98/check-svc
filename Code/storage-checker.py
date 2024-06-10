@@ -2,6 +2,7 @@ from kubernetes import client, config
 from kubernetes.client.rest import ApiException
 import time
 import logging
+import os
 
 # Load the in-cluster configuration
 config.load_incluster_config()
@@ -34,7 +35,7 @@ def create_pvc(storage_class_name):
     }
 
     try:
-        pvc = v1.create_namespaced_persistent_volume_claim(namespace="monitoring", body=pvc_manifest)
+        pvc = v1.create_namespaced_persistent_volume_claim(namespace=os.envoiron["namespace"], body=pvc_manifest)
         return pvc
     except ApiException as e:
         logger.error("Exception when creating PVC for storage class %s: %s", storage_class_name, e)
@@ -42,7 +43,7 @@ def create_pvc(storage_class_name):
 
 def check_pvc_bound(pvc_name):
     try:
-        pvc = v1.read_namespaced_persistent_volume_claim(name=pvc_name, namespace="default")
+        pvc = v1.read_namespaced_persistent_volume_claim(name=pvc_name, namespace=os.envoiron["namespace"])
         return pvc.status.phase == "Bound"
     except ApiException as e:
         logger.error("Exception when reading PVC %s: %s", pvc_name, e)
@@ -50,7 +51,7 @@ def check_pvc_bound(pvc_name):
 
 def delete_pvc(pvc_name):
     try:
-        v1.delete_namespaced_persistent_volume_claim(name=pvc_name, namespace="default")
+        v1.delete_namespaced_persistent_volume_claim(name=pvc_name, namespace=os.envoiron["namespace"])
     except ApiException as e:
         logger.error("Exception when deleting PVC %s: %s", pvc_name, e)
 

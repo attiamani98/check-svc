@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: new-service-checker
+  namespace: monitoring 
+spec:
+  selector:
+    matchLabels:
+      app: new-service-checker
+  template:
+    metadata:
+      labels:
+        app: new-service-checker
+    spec:
+      serviceAccountName: monitoring-sat
+      containers:
+      - name: new-service-checker
+        image: aattia98/service_checker_prometheus:latest
+        ports:
+        - containerPort: 8000
+      

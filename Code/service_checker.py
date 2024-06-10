@@ -49,6 +49,7 @@ async def check_service(service):
     logging.info(f"Check results for service {name} in namespace {namespace}: {results}")
     return results
 
+
 async def main():
     while True:
         services = v1.list_service_for_all_namespaces().items
@@ -57,6 +58,7 @@ async def main():
 
         for result in results:
             logging.info(result)
+        return ( "ok is working")
 
         # Wait for 5 minutes before checking again
         await asyncio.sleep(300)
