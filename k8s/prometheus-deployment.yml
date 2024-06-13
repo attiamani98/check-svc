@@ -8,10 +8,11 @@ metadata:
 spec:
   selector:
     app: prometheus
+  type: NodePort  
   ports:
-    - protocol: TCP
-      port: 9090
-      targetPort: 9090
+    - port: 8080
+      targetPort: 9090 
+      nodePort: 30000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -66,5 +67,14 @@ data:
 
       - job_name: 'http_requests'
         static_configs:
-          - targets: ['localhost:9000']  # Replace with your application's metrics endpoint
+          - targets: ['new-service-checker:8000']  # Replace with your application's metrics endpoint
 
+      - job_name: 'new-service-checker'
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_app]
+            action: keep
+            regex: new-service-checker
+        metrics_path: /metrics
+        scheme: http

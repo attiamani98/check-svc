@@ -17,5 +17,6 @@ spec:
       - name: new-service-checker
         image: aattia98/service_checker_prometheus:latest
         ports:
-        - containerPort: 8000
+          - containerPort: 8000
+
       

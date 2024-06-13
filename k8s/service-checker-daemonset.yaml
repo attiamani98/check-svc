@@ -1,21 +1,12 @@
-apiVersion: apps/v1
-kind: DaemonSet
+apiVersion: v1
+kind: Service
 metadata:
-  name: service-checker
+  name: new-service-checker-metrics
   namespace: monitoring
 spec:
   selector:
-    matchLabels:
-      name: service-checker
-  template:
-    metadata:
-      labels:
-        name: service-checker
-    spec:
-      serviceAccountName: monitoring-sat
-      containers:
-      - name: service-checker
-        image: aattia98/service-checker:latest   
-      restartPolicy: Always
-
-
+    app: new-service-checker
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000

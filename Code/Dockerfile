@@ -6,6 +6,6 @@ COPY test.py /app
 
 RUN pip install kubernetes aiohttp prometheus_client
 
-EXPOSE 9000
+EXPOSE 8000
 
-ENTRYPOINT ["python", "/app/service_checker.py"]
+ENTRYPOINT ["python", "/app/test.py"]
